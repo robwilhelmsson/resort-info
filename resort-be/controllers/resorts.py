@@ -14,10 +14,10 @@ router = Blueprint("resorts", __name__)
 def resort_data(response):
     if response.status_code == 200:
         resorts_data = response.json()
-        for resort_data in resorts_data:
-            name = resort_data["name"]
-            country = resort_data["location"]["country"]
-            continent = resort_data["location"]["continent"]
+        for data in resorts_data:
+            name = data["name"]
+            country = data["location"]["country"]
+            continent = data["location"]["continent"]
             existing_resort = ResortModel.query.filter_by(name=name).first()
             if existing_resort:
                 continue
