@@ -1,5 +1,5 @@
 module.exports = {
-  env: { browser: true, es2020: true },
+  env: { browser: true, es2020: true, amd: true, node: true },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
@@ -14,8 +14,8 @@ module.exports = {
     "no-unused-vars": [
       "error",
       {
-          "varsIgnorePattern": "React"
+        "varsIgnorePattern": "React"
       }
-  ]
+    ]
   },
 }
