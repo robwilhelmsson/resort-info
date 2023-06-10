@@ -13,7 +13,7 @@ router = Blueprint("users", __name__)
 
 
 #! Get all users
-@router.route("users", methods=["GET"])
+@router.route("/users", methods=["GET"])
 def get_users():
     users = UserModel.query.all()
     print(users)
@@ -33,7 +33,7 @@ def signup():
 
 
 #! Log in user
-@router.route("login", methods=["POST"])
+@router.route("/login", methods=["POST"])
 def login():
     user_dictionary = request.json
     user = UserModel.query.filter_by(email=user_dictionary["email"]).first()

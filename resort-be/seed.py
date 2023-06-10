@@ -1,8 +1,8 @@
 from sqlalchemy.exc import SQLAlchemyError
 from app import app, db
-from models.resort import ResortModel
+# from models.resort import ResortModel
 from models.user import UserModel
-from models.favorite_resort import FavoriteResortModel
+# from models.favorite_resort import FavoriteResortModel
 
 with app.app_context():
     try:
@@ -21,15 +21,15 @@ with app.app_context():
         )
         user_ted.save()
 
-        verbier = ResortModel(name="Verbier", country="Switzerland", rating=4.2)
-        verbier.save()
-        val_d_isere = ResortModel(name="Val d'Isere", country="France", rating=4.4)
-        val_d_isere.save()
-        la_clusaz = ResortModel(name="La Clusaz", country="France", rating=3.8)
-        la_clusaz.save()
+        # verbier = ResortModel(name="Verbier")
+        # verbier.save()
+        # val_d_isere = ResortModel(name="Val d'Isere")
+        # val_d_isere.save()
+        # la_clusaz = ResortModel(name="La Clusaz")
+        # la_clusaz.save()
 
-        favorite_resort = FavoriteResortModel(user_id=user_rob.id, resort_id=verbier.id)
-        favorite_resort.save()
+        # favorite_resort = FavoriteResortModel(user_id=user_rob.id, resort_id=verbier.id)
+        # favorite_resort.save()
 
         print("Database seeded.")
 
