@@ -1,6 +1,6 @@
 
-import React, { useContext } from 'react';
-import { Box, Flex, Text, IconButton, Button, Stack, Collapse , Icon, Popover, PopoverTrigger, PopoverContent, useColorModeValue, useBreakpointValue, useDisclosure } from '@chakra-ui/react';
+import React, { useContext, useState, useEffect } from 'react';
+import { Box, Flex, Text, IconButton, Button, Stack, Collapse, Icon, Popover, PopoverTrigger, PopoverContent, useColorModeValue, useBreakpointValue, useDisclosure } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -9,7 +9,27 @@ import { UserContext } from './UserContext';
 
 const Navbar = () => {
   const { isOpen, onToggle } = useDisclosure();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+  const textAlign = useBreakpointValue({ base: 'center', md: 'left' });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setLoading(false);
+  }, [setUser]);
+
+  const handleSignOut = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+  };
+
+  if (loading) {
+    return null; // Or render a loading indicator
+  }
+
 
   return (
     <Box>
@@ -43,7 +63,7 @@ const Navbar = () => {
           <Text
             as={ReactRouterLink}
             to={'/'}
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+            textAlign={textAlign}
             fontFamily={'heading'}
             color='white'>
             Logo
@@ -61,9 +81,20 @@ const Navbar = () => {
           spacing={6}>
 
           {user ? (
-            <Text color="white" fontWeight="bold">
-              {user}
-            </Text>
+            <>
+              <Text color="white" fontWeight="bold">
+                {user}
+              </Text>
+              <Button
+                onClick={handleSignOut}
+                fontSize={'sm'}
+                fontWeight={400}
+                variant={'link'}
+                color={colors.lilac}
+              >
+                Sign Out
+              </Button>
+            </>
           ) : (
             <>
               <Button
@@ -92,6 +123,7 @@ const Navbar = () => {
               </Button>
             </>
           )}
+
         </Stack>
       </Flex>
 
