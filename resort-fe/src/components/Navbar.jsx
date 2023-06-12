@@ -1,13 +1,15 @@
 
-import React from 'react';
-import { Box, Flex, Text, IconButton, Button, Stack, Collapse, Link as ChakraLink, Icon, Popover, PopoverTrigger, PopoverContent, useColorModeValue, useBreakpointValue, useDisclosure } from '@chakra-ui/react';
-import {HamburgerIcon, CloseIcon, ChevronDownIcon} from '@chakra-ui/icons';
+import React, { useContext } from 'react';
+import { Box, Flex, Text, IconButton, Button, Stack, Collapse , Icon, Popover, PopoverTrigger, PopoverContent, useColorModeValue, useBreakpointValue, useDisclosure } from '@chakra-ui/react';
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import colors from './Colors';
+import { UserContext } from './UserContext';
 
 const Navbar = () => {
   const { isOpen, onToggle } = useDisclosure();
+  const { user } = useContext(UserContext);
 
   return (
     <Box>
@@ -39,6 +41,8 @@ const Navbar = () => {
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
           <Text
+            as={ReactRouterLink}
+            to={'/'}
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color='white'>
@@ -55,28 +59,39 @@ const Navbar = () => {
           justify={'flex-end'}
           direction={'row'}
           spacing={6}>
-          <Button
-            as={ReactRouterLink}
-            to={'/signin'}
-            fontSize={'sm'}
-            fontWeight={400}
-            variant={'link'}
-            color={colors.lilac}>
-            Sign In
-          </Button>
-          <Button
-            as={ReactRouterLink}
-            to={'/signup'}
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'sm'}
-            fontWeight={600}
-            color={'white'}
-            bg={colors.d_blue}
-            _hover={{
-              bg: 'green.600',
-            }}>
-            Sign Up
-          </Button>
+
+          {user ? (
+            <Text color="white" fontWeight="bold">
+              {user}
+            </Text>
+          ) : (
+            <>
+              <Button
+                as={ReactRouterLink}
+                to={'/signin'}
+                fontSize={'sm'}
+                fontWeight={400}
+                variant={'link'}
+                color={colors.lilac}
+              >
+                Sign In
+              </Button>
+              <Button
+                as={ReactRouterLink}
+                to={'/signup'}
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'sm'}
+                fontWeight={600}
+                color={'white'}
+                bg={colors.d_blue}
+                _hover={{
+                  bg: 'green.600',
+                }}
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
         </Stack>
       </Flex>
 
@@ -98,9 +113,9 @@ const DesktopNav = () => {
         <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
-              <ChakraLink
+              <ReactRouterLink
                 p={2}
-                href={navItem.href ?? '#'}
+                to={navItem.to}
                 fontSize={'sm'}
                 fontWeight={500}
                 color={linkColor}
@@ -109,7 +124,7 @@ const DesktopNav = () => {
                   color: linkHoverColor,
                 }}>
                 {navItem.label}
-              </ChakraLink>
+              </ReactRouterLink>
             </PopoverTrigger>
 
             {navItem.children && (
@@ -148,15 +163,15 @@ const MobileNav = () => {
   );
 };
 
-const MobileNavItem = ({ label, children, href }) => {
+const MobileNavItem = ({ label, children, to }) => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
       <Flex
         py={2}
-        as={ChakraLink}
-        href={href ?? '#'}
+        as={ReactRouterLink}
+        to={to}
         justify={'space-between'}
         align={'center'}
         _hover={{
@@ -188,9 +203,9 @@ const MobileNavItem = ({ label, children, href }) => {
           align={'start'}>
           {children &&
             children.map((child) => (
-              <ChakraLink key={child.label} py={2} href={child.href}>
+              <ReactRouterLink key={child.label} py={2} href={child.to}>
                 {child.label}
-              </ChakraLink>
+              </ReactRouterLink>
             ))}
         </Stack>
       </Collapse>
@@ -201,19 +216,19 @@ const MobileNavItem = ({ label, children, href }) => {
 MobileNavItem.propTypes = {
   label: PropTypes.string.isRequired,
   children: PropTypes.arrayOf(PropTypes.object),
-  href: PropTypes.string,
+  to: PropTypes.string,
 };
 
 
 
 const NAV_ITEMS = [
   {
-    label: 'The Resorts',
-    href: '#',
+    label: 'Resorts',
+    to: '/resorts',
   },
   {
     label: 'Favorites',
-    href: '#',
+    to: '/favorites',
   },
 ];
 

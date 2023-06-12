@@ -41,7 +41,8 @@ const SignUp = () => {
 
     } catch (error) {
       if (error.response) {
-        setError(error.response.data.messages || 'Something went wrong');
+        setError(error.response.data.errors || 'Something went wrong');
+        console.log(error)
       } else {
         setError('Something went wrong');
       }
