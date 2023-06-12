@@ -37,6 +37,7 @@ def signup():
 def login():
     user_dictionary = request.json
     user = UserModel.query.filter_by(email=user_dictionary["email"]).first()
+
     if not user:
         return {
             "message": "Your email or password was incorrect."
@@ -45,7 +46,8 @@ def login():
         return {
             "message": "Your email or password was incorrect."
         }, HTTPStatus.UNAUTHORIZED
-    return {"message": "Welcome back!"}
+    token = user.generate_token()
+    return { "token": token, "message": "Welcome back!", "user": user.username}
 
 
 #! Users favorite resorts

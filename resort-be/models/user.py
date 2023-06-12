@@ -1,6 +1,9 @@
+from datetime import datetime, timedelta
 from sqlalchemy.ext.hybrid import hybrid_property
+import jwt
 from app import db, bcrypt
 from models.base import BaseModel
+from config.environment import secret
 
 
 class UserModel(db.Model, BaseModel):
@@ -22,6 +25,20 @@ class UserModel(db.Model, BaseModel):
 
     def validate_password(self, password_plaintext):
         return bcrypt.check_password_hash(self.password_hash, password_plaintext)
+
+    def generate_token(self):
+        payload = {
+            "exp": datetime.utcnow() + timedelta(days=1),
+            "iat": datetime.utcnow(),
+            "sub": self.id
+        }
+        token = jwt.encode(
+            payload,
+            secret,
+            algorithm="HS256"
+        )
+
+        return token
 
     def add_favorite_resort(self, resort):
         # pylint: disable=import-outside-toplevel
