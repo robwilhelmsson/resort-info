@@ -44,7 +44,7 @@ def all_resort_data_list():
 #     }
 #     response = requests.get(url, headers=headers, timeout=50)
 #     resort_data(response)
-    
+
 
 
 #! Get all resorts

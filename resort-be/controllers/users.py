@@ -33,7 +33,7 @@ def signup():
 
 
 #! Log in user
-@router.route("/login", methods=["POST"])
+@router.route("/signin", methods=["POST"])
 def login():
     user_dictionary = request.json
     user = UserModel.query.filter_by(email=user_dictionary["email"]).first()
