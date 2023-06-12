@@ -4,6 +4,7 @@ import { Box, Flex, Text, IconButton, Button, Stack, Collapse, Link as ChakraLin
 import {HamburgerIcon, CloseIcon, ChevronDownIcon} from '@chakra-ui/icons';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import colors from './Colors';
 
 const Navbar = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -11,8 +12,7 @@ const Navbar = () => {
   return (
     <Box>
       <Flex
-        bg={'gray.800'}
-        color={'gray.600'}
+        bg={colors.d_lilac}
         minH={'60px'}
         py={{ base: 2 }}
         px={{ base: 8 }}
@@ -60,7 +60,8 @@ const Navbar = () => {
             to={'/signin'}
             fontSize={'sm'}
             fontWeight={400}
-            variant={'link'}>
+            variant={'link'}
+            color={colors.lilac}>
             Sign In
           </Button>
           <Button
@@ -70,7 +71,7 @@ const Navbar = () => {
             fontSize={'sm'}
             fontWeight={600}
             color={'white'}
-            bg={'green.700'}
+            bg={colors.d_blue}
             _hover={{
               bg: 'green.600',
             }}>
