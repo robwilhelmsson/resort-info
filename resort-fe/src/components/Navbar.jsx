@@ -27,7 +27,7 @@ const Navbar = () => {
   };
 
   if (loading) {
-    return null; // Or render a loading indicator
+    return null;
   }
 
 

@@ -6,6 +6,7 @@ import { UserProvider } from './components/UserContext';
 import Navbar from './components/Navbar';
 import Hero from './pages/Hero';
 import Resorts from './pages/Resorts';
+import ResortInfo from './pages/ResortInfo';
 import Favorites from './pages/Favorites';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -40,6 +41,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/resorts" element={<Resorts />} />
+          <Route path="/resort/:name" element={<ResortInfo />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/signin" element={<SignIn fetchUser={fetchUser} />} />
           <Route path="/signup" element={<SignUp />} />
