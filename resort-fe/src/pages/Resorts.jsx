@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react"
 import axios from "axios"
-import { Box, Heading, Text, Flex, Select, Input, List, ListItem, Button } from '@chakra-ui/react';
+import { Box, Heading, Text, Select, Input, List, ListItem, Button, Grid } from '@chakra-ui/react';
 import { Triangle } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 
@@ -18,6 +18,7 @@ const Resorts = () => {
 
   useEffect(() => {
       fetchResorts()
+      setSelectedCountry('Switzerland')
   }, []);
 
   const fetchResorts = async () => {
@@ -81,6 +82,9 @@ const Resorts = () => {
     setSelectedContinent(event.target.value);
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const indexOfLastResort = currentPage * resortsPerPage;
   const indexOfFirstResort = indexOfLastResort - resortsPerPage;
@@ -88,14 +92,10 @@ const Resorts = () => {
   const totalPages = Math.ceil(filteredResorts.length / resortsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   return (
     <div>
-      <Flex>
-
+      <Grid templateColumns="repeat(3, 1fr)" gap={6} p={10}>
         <Select placeholder='Select Country' value={selectedCountry} onChange={handleCountryChange}>
           <option value=''>All Countries</option>
           {uniqueCountries.map((country) => (
@@ -104,7 +104,6 @@ const Resorts = () => {
             </option>
           ))}
         </Select>
-
         <Select placeholder='Select Continent' value={selectedContinent} onChange={handleContinentChange}>
           <option value=''>All Continents</option>
           {uniqueContinents.map((continent) => (
@@ -113,9 +112,8 @@ const Resorts = () => {
             </option>
           ))}
         </Select>
-
         <Input placeholder='Search Resort' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-      </Flex>
+      </Grid>
 
       {loading ? (
         <Triangle
@@ -128,7 +126,7 @@ const Resorts = () => {
           visible={true}
         />
       ) : (
-        <Flex flexWrap="wrap">
+        <Grid templateColumns="repeat(4, 1fr)" gap={2} mx={2} flexWrap="wrap" justifyContent='space-around' alignContent='center'>
           {currentResorts.map((resort) => (
             <Link key={resort.id} to={`/resort/${resort.name}`}>
               <Box key={resort.id} p="4" borderWidth="1px" borderRadius="md">
@@ -138,10 +136,8 @@ const Resorts = () => {
               </Box>
             </Link>
           ))}
-        </Flex>
+        </Grid>
       )}
-      {/* Pagination */}
-      {/* Pagination */}
       {totalPages > 1 && (
         <Box mt="4">
           <List display="flex" justifyContent="center" alignItems="center">

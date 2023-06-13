@@ -22,7 +22,7 @@ const ResortInfo = () => {
             "X-RapidAPI-Key": "5cfa6e43e7mshf5e41a4a4130970p169d2ejsn7198fd4220d6",
           },
         });
-        console.log(response.data[0])
+        // console.log(response.data[0])
         setResortInfo(response.data[0]);
         setLoading(false);
       } catch (error) {

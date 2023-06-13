@@ -22,7 +22,7 @@ const App = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const { data } = response
-        setUser(data);
+        setUser(data[0]);
       } catch (error) {
         setUser(null)
         console.log('Failed to fetch user', error);

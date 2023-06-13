@@ -14,9 +14,14 @@ const Navbar = () => {
   const textAlign = useBreakpointValue({ base: 'center', md: 'left' });
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    console.log('User:', user);
+  }, [user]);
+  
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setUser(storedUser);
     }
     setLoading(false);
   }, [setUser]);
