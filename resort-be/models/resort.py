@@ -8,6 +8,3 @@ class ResortModel(db.Model, BaseModel):
     name = db.Column(db.Text, nullable=False, unique=True)
     country = db.Column(db.Text, nullable=False)
     continent = db.Column(db.Text, nullable=False)
-
-    # country = db.Column(db.Text, nullable=False, unique=False)
-    # rating = db.Column(db.Integer, nullable=False)
