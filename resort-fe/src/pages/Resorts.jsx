@@ -19,7 +19,7 @@ const Resorts = ({ user }) => {
   const [resortsPerPage] = useState(150);
 
   useEffect(() => {
-      fetchResorts()
+    fetchResorts()
   }, []);
 
   const fetchResorts = async () => {
@@ -88,13 +88,14 @@ const Resorts = ({ user }) => {
   };
 
   // console.log(user)
+
   const addFavoriteResort = async (resortId) => {
     try {
       const response = await axios.post(`http://127.0.0.1:4000/api/users/${user.id}/favorites`, {
         resort_id: resortId
       });
       const favoriteResorts = response.data.favorite_resorts;
-      console.log(favoriteResorts); 
+      console.log(favoriteResorts);
     } catch (error) {
       console.error(error);
     }
@@ -142,35 +143,40 @@ const Resorts = ({ user }) => {
       ) : (
         <Grid templateColumns="repeat(4, 1fr)" gap={2} mx={2} flexWrap="wrap" justifyContent='space-around' alignContent='center'>
           {currentResorts.map((resort) => (
-            <Link key={resort.id} to={`/resort/${resort.name}`}>
-              <Box key={resort.id} p="4" borderWidth="1px" borderRadius="md">
-                <Heading as="h2" size="md">{resort.name}</Heading>
-                <Text>Country: {resort.country}</Text>
-                <Text>Continent: {resort.continent}</Text>
-                <Button onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
-              </Box>
-            </Link>
+
+            <Box key={resort.id} p="4" borderWidth="1px" borderRadius="md">
+              <Heading as="h2" size="md">{resort.name}</Heading>
+              <Text>Country: {resort.country}</Text>
+              <Text>Continent: {resort.continent}</Text>
+              <Button onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
+              <Link key={resort.id} to={`/resort/${resort.name}`}>
+                <Button>Resort Info</Button>
+              </Link>
+            </Box>
           ))}
         </Grid>
-      )}
-      {totalPages > 1 && (
-        <Box mt="4">
-          <List display="flex" justifyContent="center" alignItems="center">
-            {pageNumbers.map((pageNumber) => (
-              <ListItem key={pageNumber} mx="2">
-                <Button
-                  size="sm"
-                  variant={pageNumber === currentPage ? "solid" : "outline"}
-                  onClick={() => handlePageChange(pageNumber)}
-                >
-                  {pageNumber}
-                </Button>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      )}
-    </div>
+      )
+      }
+      {
+        totalPages > 1 && (
+          <Box mt="4">
+            <List display="flex" justifyContent="center" alignItems="center">
+              {pageNumbers.map((pageNumber) => (
+                <ListItem key={pageNumber} mx="2">
+                  <Button
+                    size="sm"
+                    variant={pageNumber === currentPage ? "solid" : "outline"}
+                    onClick={() => handlePageChange(pageNumber)}
+                  >
+                    {pageNumber}
+                  </Button>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        )
+      }
+    </div >
   );
 };
 

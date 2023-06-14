@@ -14,13 +14,20 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      const userData = JSON.parse(localStorage.getItem('user'));
-      if (userData) {
-        setUser(userData);
+      const userData = localStorage.getItem('user');
+      if (userData && userData !== 'undefined') {
+        try {
+          const parsedUser = JSON.parse(userData);
+          setUser(parsedUser);
+        } catch (error) {
+          console.error('Error parsing user data:', error);
+          // Handle the error or set the user to a default value
+          // setUser(DEFAULT_USER);
+        }
       }
     }
   }, []);
-  console.log(user)
+  // console.log(user)
   return (
     <Router>
         <Navbar user={user} setUser={setUser} />
@@ -28,7 +35,7 @@ const App = () => {
           <Route path="/" element={<Hero />} />
           <Route path="/resorts" element={<Resorts user={user} />} />
           <Route path="/resort/:name" element={<ResortInfo />} />
-          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/favorites" element={<Favorites user={user} />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
