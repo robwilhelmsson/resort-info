@@ -3,8 +3,10 @@ import axios from "axios"
 import { Box, Heading, Text, Select, Input, List, ListItem, Button, Grid } from '@chakra-ui/react';
 import { Triangle } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-const Resorts = () => {
+
+const Resorts = ({ user }) => {
   const [resorts, setResorts] = useState([])
   const [filteredResorts, setFilteredResorts] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -18,7 +20,6 @@ const Resorts = () => {
 
   useEffect(() => {
       fetchResorts()
-      setSelectedCountry('Switzerland')
   }, []);
 
   const fetchResorts = async () => {
@@ -86,6 +87,19 @@ const Resorts = () => {
     setCurrentPage(pageNumber);
   };
 
+  // console.log(user)
+  const addFavoriteResort = async (resortId) => {
+    try {
+      const response = await axios.post(`http://127.0.0.1:4000/api/users/${user.id}/favorites`, {
+        resort_id: resortId
+      });
+      const favoriteResorts = response.data.favorite_resorts;
+      console.log(favoriteResorts); 
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const indexOfLastResort = currentPage * resortsPerPage;
   const indexOfFirstResort = indexOfLastResort - resortsPerPage;
   const currentResorts = filteredResorts.slice(indexOfFirstResort, indexOfLastResort);
@@ -133,6 +147,7 @@ const Resorts = () => {
                 <Heading as="h2" size="md">{resort.name}</Heading>
                 <Text>Country: {resort.country}</Text>
                 <Text>Continent: {resort.continent}</Text>
+                <Button onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
               </Box>
             </Link>
           ))}
@@ -157,6 +172,10 @@ const Resorts = () => {
       )}
     </div>
   );
+};
+
+Resorts.propTypes = {
+  user: PropTypes.object
 };
 
 export default Resorts

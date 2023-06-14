@@ -1,34 +1,23 @@
-
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Flex, Text, IconButton, Button, Stack, Collapse, Icon, Popover, PopoverTrigger, PopoverContent, useColorModeValue, useBreakpointValue, useDisclosure } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import colors from './Colors';
-import { UserContext } from './UserContext';
 
-const Navbar = () => {
+
+const Navbar = ({ user, setUser }) => {
   const { isOpen, onToggle } = useDisclosure();
-  const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const textAlign = useBreakpointValue({ base: 'center', md: 'left' });
 
   useEffect(() => {
-    console.log('User:', user);
-  }, [user]);
-  
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser) {
-      setUser(storedUser);
-    }
     setLoading(false);
-  }, [setUser]);
+  }, []);
 
   const handleSignOut = () => {
     localStorage.removeItem('user');
-    setUser(null);
+    setUser(null)
   };
 
   if (loading) {
@@ -88,7 +77,7 @@ const Navbar = () => {
           {user ? (
             <>
               <Text color="white" fontWeight="bold">
-                {user}
+                {user.username}
               </Text>
               <Button
                 onClick={handleSignOut}
@@ -255,6 +244,11 @@ MobileNavItem.propTypes = {
   children: PropTypes.arrayOf(PropTypes.object),
   to: PropTypes.string,
 };
+
+Navbar.propTypes = {
+  user: PropTypes.object,
+  setUser: PropTypes.func
+}
 
 
 

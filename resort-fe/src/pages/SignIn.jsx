@@ -1,13 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Flex, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, Stack, Button, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { UserContext } from '../components/UserContext';
 import PropTypes from 'prop-types';
 
 
-const SignIn = ({ fetchUser }) => {
+const SignIn = ({ setUser }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,7 +16,6 @@ const SignIn = ({ fetchUser }) => {
   });
 
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -40,9 +38,9 @@ const SignIn = ({ fetchUser }) => {
 
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
-      fetchUser()
 
       setUser(user);
+      // console.log(user)
       navigate('/resorts');
     } catch (error) {
       if (error.response) {
@@ -132,7 +130,8 @@ const SignIn = ({ fetchUser }) => {
 };
 
 SignIn.propTypes = {
-  fetchUser: PropTypes.func.isRequired
+  setUser: PropTypes.func.isRequired
 }
+
 
 export default SignIn;
