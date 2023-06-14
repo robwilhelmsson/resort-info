@@ -34,7 +34,7 @@ def signup():
 
 #! Log in user
 @router.route("/signin", methods=["POST"])
-def login():
+def signin():
     user_dictionary = request.json
     user = UserModel.query.filter_by(email=user_dictionary["email"]).first()
 
@@ -47,7 +47,12 @@ def login():
             "message": "Your email or password was incorrect."
         }, HTTPStatus.UNAUTHORIZED
     token = user.generate_token()
-    return { "token": token, "message": "Welcome back!", "user": user.username}
+    return {
+        "token": token,
+        "message": "Welcome back!",
+        "user": {"id": user.id, "username": user.username},
+    }
+
 
 
 #! Users favorite resorts

@@ -12,12 +12,12 @@ with app.app_context():
         print("Seeding database.")
 
         user_rob = UserModel(
-            email="rob@rob.com", username="rob", password="Password123!"
+            email="rob@rob.com", username="rob", password="Password"
         )
         user_rob.save()
 
         user_ted = UserModel(
-            email="ted@ted.com", username="ted", password="Password123!"
+            email="ted@ted.com", username="ted", password="Password"
         )
         user_ted.save()
 
