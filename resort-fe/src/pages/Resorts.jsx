@@ -87,8 +87,6 @@ const Resorts = ({ user }) => {
     setCurrentPage(pageNumber);
   };
 
-  // console.log(user)
-
   const addFavoriteResort = async (resortId) => {
     try {
       const response = await axios.post(`http://127.0.0.1:4000/api/users/${user.id}/favorites`, {

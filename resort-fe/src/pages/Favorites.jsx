@@ -1,73 +1,90 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Box, Heading, Text, List, ListItem, Button } from '@chakra-ui/react';
+import { Box, Heading, Text, Button, Grid } from '@chakra-ui/react';
+import { Triangle } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import PropTypes from 'prop-types';
 
 const FavoriteResorts = ({ user }) => {
   const [favoriteResorts, setFavoriteResorts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
+    const fetchFavoriteResorts = async () => {
+      try {
+        setLoading(true)
+        const response = await axios.get(`http://127.0.0.1:4000/api/users/${user.id}/favorites`);
+        const favoriteResortIds = response.data.favorite_resorts.map((id) => id.id);
+        const resortsData = await fetchResortsData(favoriteResortIds);
+        setFavoriteResorts(resortsData);
+        setLoading(false)
+        console.log(favoriteResorts)
+      } catch (error) {
+        console.error(error);
+        setLoading(false)
+      }
+    };
+
     if (user && user.id) {
       fetchFavoriteResorts();
     }
   }, [user]);
 
-  const fetchFavoriteResorts = async () => {
+  const fetchResortsData = async (resortIds) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:4000/api/users/${user.id}/favorites`);
-      const favoriteResortIds = response.data.favorite_resorts;
+      const resortDataPromises = resortIds.map(async (resortId) => {
+        const response = await axios.get(`http://127.0.0.1:4000/api/resorts/${resortId}`);
+        return response.data;
+      });
 
-      const resortsData = await fetchResortsData(favoriteResortIds);
-      setFavoriteResorts(resortsData);
+      const resortsData = await Promise.all(resortDataPromises);
+      return resortsData;
     } catch (error) {
       console.error(error);
+      return [];
     }
   };
 
-  const fetchResortsData = async (resortIds) => {
-    const resortDataPromises = resortIds.map(async (resortId) => {
-      const response = await axios.get(`http://127.0.0.1:4000/api/resorts/${resortId}`);
-      return response.data;
-    });
+  const removeFavoriteResort = async (resortId) => {
+    try {
+      await axios.delete(`http://127.0.0.1:4000/api/users/${user.id}/favorites/${resortId}`)
+      setFavoriteResorts((prevResorts) => prevResorts.filter((resort) => resort.id !== resortId));
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    return Promise.all(resortDataPromises);
-  };
-
-  // const removeFavoriteResort = async (resortId) => {
-  //   try {
-  //     await axios.delete(`http://127.0.0.1:4000/api/users/${user.id}/favorites/${resortId}`);
-  //     setFavoriteResorts(prevResorts => prevResorts.filter(resort => resort.id !== resortId));
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  return (
-    <div>
-      <Heading as="h2" size="lg" mb="4">Favorite Resorts</Heading>
-
-      {favoriteResorts.length === 0 ? (
-        <Text>You have no favorite resorts yet.</Text>
-      ) : (
-        <List spacing="4">
-          {favoriteResorts.map((resort) => (
-            <ListItem key={resort.id}>
-              <Box p="4" borderWidth="1px" borderRadius="md">
-                <Heading as="h3" size="md">{resort.name}</Heading>
-                <Text>Country: {resort.country}</Text>
-                <Text>Continent: {resort.continent}</Text>
-                {/* <Button onClick={() => removeFavoriteResort(resort.id)}>Remove Favorite</Button> */}
-                {/* <Link to={`/resort/${resort.name}`}>
-                  <Button>Resort Info</Button>
-                </Link> */}
-              </Box>
-            </ListItem>
-          ))}
-        </List>
-      )}
-    </div>
-  );
+return (
+  <div>
+    {loading ? (
+      <Triangle
+        height="80"
+        width="80"
+        color="#4fa94d"
+        ariaLabel="triangle-loading"
+        wrapperStyle={{}}
+        wrapperClassName=""
+        visible={true}
+      />
+    ) : (
+      <Grid templateColumns="repeat(4, 1fr)" gap={2} mx={2} flexWrap="wrap" justifyContent='space-around' alignContent='center'>
+        {favoriteResorts.map((resort) => (
+          <Box key={resort.id} p="4" borderWidth="1px" borderRadius="md">
+            <Heading as="h2" size="md">{resort.name}</Heading>
+            <Text>Country: {resort.country}</Text>
+            <Text>Continent: {resort.continent}</Text>
+            <Button onClick={() => removeFavoriteResort(resort.id)}>Remove Favorite</Button>
+            <Link key={resort.id} to={`/resort/${resort.name}`}>
+              <Button>Resort Info</Button>
+            </Link>
+          </Box>
+        ))}
+      </Grid>
+    )
+    }
+  </div>
+);
 };
 
 FavoriteResorts.propTypes = {
