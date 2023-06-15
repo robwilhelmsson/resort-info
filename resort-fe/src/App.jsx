@@ -7,6 +7,7 @@ import ResortInfo from './pages/ResortInfo';
 import Favorites from './pages/Favorites';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import Footer from './components/Footer';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
+        <Footer />
     </Router>
   );
 };
