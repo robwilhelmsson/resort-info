@@ -17,10 +17,28 @@ const Resorts = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [resortsPerPage] = useState(150);
+  const [favoriteResorts, setFavoriteResorts] = useState([]);
+
+
+  const getFavoriteResorts = useCallback( async () => {
+    try {
+      if (!user || !user.id) {
+        return;
+      }
+      const response = await axios.get(`http://127.0.0.1:4000/api/users/${user.id}/favorites`);
+      const favoriteResortsData = response.data.favorite_resorts ? response.data.favorite_resorts.map((id) => id.id) : [];
+      setFavoriteResorts(favoriteResortsData);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [user]);
+
 
   useEffect(() => {
     fetchResorts()
-  }, []);
+    getFavoriteResorts()
+
+  }, [user, getFavoriteResorts]);
 
   const fetchResorts = async () => {
     try {
@@ -87,17 +105,28 @@ const Resorts = ({ user }) => {
     setCurrentPage(pageNumber);
   };
 
+
+  const checkIsResortFavorited = (resortId) => {
+    return favoriteResorts.some((resort) => resort === resortId);
+  };
+
   const addFavoriteResort = async (resortId) => {
     try {
-      const response = await axios.post(`http://127.0.0.1:4000/api/users/${user.id}/favorites`, {
+      const isAlreadyFavorited = checkIsResortFavorited(resortId);
+      if (isAlreadyFavorited) {
+        console.log("Resort already favorited");
+        return;
+      }
+
+      await axios.post(`http://127.0.0.1:4000/api/users/${user.id}/favorites`, {
         resort_id: resortId
       });
-      const favoriteResorts = response.data.favorite_resorts;
-      console.log(favoriteResorts);
+      await getFavoriteResorts();
     } catch (error) {
       console.error(error);
     }
   };
+
 
   const indexOfLastResort = currentPage * resortsPerPage;
   const indexOfFirstResort = indexOfLastResort - resortsPerPage;
@@ -146,7 +175,9 @@ const Resorts = ({ user }) => {
               <Heading as="h2" size="md">{resort.name}</Heading>
               <Text>Country: {resort.country}</Text>
               <Text>Continent: {resort.continent}</Text>
-              <Button onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
+              {!checkIsResortFavorited(resort.id) && (
+                <Button onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
+              )}
               <Link key={resort.id} to={`/resort/${resort.name}`}>
                 <Button>Resort Info</Button>
               </Link>

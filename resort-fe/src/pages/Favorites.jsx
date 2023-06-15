@@ -9,17 +9,16 @@ const FavoriteResorts = ({ user }) => {
   const [favoriteResorts, setFavoriteResorts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
     const fetchFavoriteResorts = async () => {
       try {
         setLoading(true)
         const response = await axios.get(`http://127.0.0.1:4000/api/users/${user.id}/favorites`);
-        const favoriteResortIds = response.data.favorite_resorts.map((id) => id.id);
+        const favoriteResortIds = response.data.favorite_resorts ? response.data.favorite_resorts.map((id) => id.id) : [];
         const resortsData = await fetchResortsData(favoriteResortIds);
         setFavoriteResorts(resortsData);
         setLoading(false)
-        console.log(favoriteResorts)
+        // console.log(favoriteResorts)
       } catch (error) {
         console.error(error);
         setLoading(false)
