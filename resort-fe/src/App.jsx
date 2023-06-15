@@ -21,8 +21,6 @@ const App = () => {
           setUser(parsedUser);
         } catch (error) {
           console.error('Error parsing user data:', error);
-          // Handle the error or set the user to a default value
-          // setUser(DEFAULT_USER);
         }
       }
     }

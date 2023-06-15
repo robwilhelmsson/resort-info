@@ -19,8 +19,7 @@ const Resorts = ({ user }) => {
   const [resortsPerPage] = useState(150);
   const [favoriteResorts, setFavoriteResorts] = useState([]);
 
-
-  const getFavoriteResorts = useCallback( async () => {
+  const getFavoriteResorts = useCallback(async () => {
     try {
       if (!user || !user.id) {
         return;
@@ -33,25 +32,31 @@ const Resorts = ({ user }) => {
     }
   }, [user]);
 
+  const fetchResorts = async () => {
+    try {
+      setLoading(true);
+      const savedResorts = localStorage.getItem("resorts"); // Check if resorts data exists in localStorage
+      if (savedResorts) {
+        // If resorts data exists in localStorage, use it
+        setResorts(JSON.parse(savedResorts));
+      } else {
+        // If resorts data doesn't exist in localStorage, fetch it from the API
+        const response = await axios.get("http://127.0.0.1:4000/api/resorts");
+        const resortData = response.data;
+        setResorts(resortData);
+        localStorage.setItem("resorts", JSON.stringify(resortData)); // Save resorts data in localStorage
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchResorts()
     getFavoriteResorts()
-
   }, [user, getFavoriteResorts]);
-
-  const fetchResorts = async () => {
-    try {
-      setLoading(true)
-      const response = await axios.get('http://127.0.0.1:4000/api/resorts')
-      const resortData = response.data
-      setResorts(resortData)
-      setLoading(false)
-    } catch (error) {
-      console.error(error)
-      setLoading(false)
-    }
-  }
 
   const filterResortsByCountry = useCallback(() => {
     if (selectedCountry) {
@@ -158,15 +163,18 @@ const Resorts = ({ user }) => {
       </Grid>
 
       {loading ? (
-        <Triangle
-          height="80"
-          width="80"
-          color="#4fa94d"
-          ariaLabel="triangle-loading"
-          wrapperStyle={{}}
-          wrapperClassName=""
-          visible={true}
-        />
+        <div>
+          <Triangle
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="triangle-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+          <p>This can take some time on first load...</p>
+        </div>
       ) : (
         <Grid templateColumns="repeat(4, 1fr)" gap={2} mx={2} flexWrap="wrap" justifyContent='space-around' alignContent='center'>
           {currentResorts.map((resort) => (
@@ -175,7 +183,7 @@ const Resorts = ({ user }) => {
               <Heading as="h2" size="md">{resort.name}</Heading>
               <Text>Country: {resort.country}</Text>
               <Text>Continent: {resort.continent}</Text>
-              {!checkIsResortFavorited(resort.id) && (
+              {user && !checkIsResortFavorited(resort.id) && (
                 <Button onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
               )}
               <Link key={resort.id} to={`/resort/${resort.name}`}>

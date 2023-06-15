@@ -49,41 +49,55 @@ const FavoriteResorts = ({ user }) => {
     try {
       await axios.delete(`http://127.0.0.1:4000/api/users/${user.id}/favorites/${resortId}`)
       setFavoriteResorts((prevResorts) => prevResorts.filter((resort) => resort.id !== resortId));
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-return (
-  <div>
-    {loading ? (
-      <Triangle
-        height="80"
-        width="80"
-        color="#4fa94d"
-        ariaLabel="triangle-loading"
-        wrapperStyle={{}}
-        wrapperClassName=""
-        visible={true}
-      />
-    ) : (
-      <Grid templateColumns="repeat(4, 1fr)" gap={2} mx={2} flexWrap="wrap" justifyContent='space-around' alignContent='center'>
-        {favoriteResorts.map((resort) => (
-          <Box key={resort.id} p="4" borderWidth="1px" borderRadius="md">
-            <Heading as="h2" size="md">{resort.name}</Heading>
-            <Text>Country: {resort.country}</Text>
-            <Text>Continent: {resort.continent}</Text>
-            <Button onClick={() => removeFavoriteResort(resort.id)}>Remove Favorite</Button>
-            <Link key={resort.id} to={`/resort/${resort.name}`}>
-              <Button>Resort Info</Button>
-            </Link>
-          </Box>
-        ))}
-      </Grid>
-    )
+    } catch (error) {
+      console.error(error);
     }
-  </div>
-);
+  };
+
+  if (!user || !user.id) {
+    return (
+      <div>
+        You must be signed in to see favorites.
+      </div>
+    )
+  } else if (favoriteResorts == 0) {
+    return (
+      <div>
+        No favorites for user.
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      {loading ? (
+        <Triangle
+          height="80"
+          width="80"
+          color="#4fa94d"
+          ariaLabel="triangle-loading"
+          wrapperStyle={{}}
+          wrapperClassName=""
+          visible={true}
+        />
+      ) : (
+        <Grid templateColumns="repeat(4, 1fr)" gap={2} mx={2} flexWrap="wrap" justifyContent='space-around' alignContent='center'>
+          {favoriteResorts.map((resort) => (
+            <Box key={resort.id} p="4" borderWidth="1px" borderRadius="md">
+              <Heading as="h2" size="md">{resort.name}</Heading>
+              <Text>Country: {resort.country}</Text>
+              <Text>Continent: {resort.continent}</Text>
+              <Button onClick={() => removeFavoriteResort(resort.id)}>Remove Favorite</Button>
+              <Link key={resort.id} to={`/resort/${resort.name}`}>
+                <Button>Resort Info</Button>
+              </Link>
+            </Box>
+          ))}
+        </Grid>
+      )
+      }
+    </div>
+  );
 };
 
 FavoriteResorts.propTypes = {
