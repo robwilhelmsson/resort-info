@@ -1,19 +1,12 @@
 import React from 'react';
-import { Box, Container, Text, Link } from '@chakra-ui/react';
+import { Box, Text, Link } from '@chakra-ui/react';
 
 const Footer = () => {
   return (
-    <Box
-      bg={'white'}
-      color={'gray.700'}>
-      <Container
-        py={12}
-        justify={'center'}
-        align={'center'}>
-        <Link href='https://github.com/robwilhelmsson/resort-info' isExternal>
-          <Text>Created by Rob Wilhelmsson. Click for Github repo.</Text>
-        </Link>
-      </Container>
+    <Box h={'40px'} bg={'gray.400'} color={'gray.700'} display={'flex'} alignItems={'center'} justifyContent={'center'} >
+      <Link href='https://github.com/robwilhelmsson/resort-info' isExternal _hover={{ textDecor: 'none' }}>
+        <Text color={'gray.100'} fontSize={'xs'} align={'center'} justify={'center'}>Created by Rob Wilhelmsson. Click for Github repo.</Text>
+      </Link>
     </Box>
   );
 }

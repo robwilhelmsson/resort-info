@@ -14,11 +14,20 @@ const ResortInfo = () => {
       try {
         setLoading(true);
         const formattedName = name
+          
+          .replace(/Grandvalira El Tarter/g, "GrandvaliraElTarter")
+          .replace(/Grandvalira-Canillo/g, "Canillo")
+          .replace(/Grandvalira-Encamp/g, "Encamp")
+          .replace(/Grandvalira-Grau Roig/g, "GrauRoig")
+          .replace(/Grandvalira-Soldeu/g, "El-Tarter-Soldeu")
+          .replace(/Grandvalira-/g, "")
+          .replace(/Vallnord-/g, "")
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "")
           .replace(/'/g, " ")
           .replace(/\s+/g, "-")
           .replace(/Abries-Ristolas/g, "Abries")
+
         const response = await axios.get(
           `https://ski-resort-api.p.rapidapi.com/resort/${formattedName}`,
           {

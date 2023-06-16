@@ -8,6 +8,7 @@ import Favorites from './pages/Favorites';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Footer from './components/Footer';
+import '../src/App.css'
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -26,9 +27,9 @@ const App = () => {
       }
     }
   }, []);
-  // console.log(user)
+
   return (
-    <Router>
+      <Router>
         <Navbar user={user} setUser={setUser} />
         <Routes>
           <Route path="/" element={<Hero />} />
@@ -39,7 +40,7 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
         </Routes>
         <Footer />
-    </Router>
+      </Router>
   );
 };
 

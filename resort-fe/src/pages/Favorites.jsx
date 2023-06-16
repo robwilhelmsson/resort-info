@@ -54,22 +54,35 @@ const FavoriteResorts = ({ user }) => {
     }
   };
 
-  if (!user || !user.id) {
-    return (
-      <div>
-        You must be signed in to see favorites.
-      </div>
-    )
-  } else if (favoriteResorts == 0) {
-    return (
-      <div>
-        No favorites for user.
-      </div>
-    )
+  const EmptyFavoritesMessage = () => (
+    <Box minHeight={`calc(100vh - 100px)`}>
+      {user ? "No favorites for user." : "You must be signed in to see favorites."}
+    </Box>
+  );
+
+  if (!user || !user.id || favoriteResorts.length === 0) {
+    return <EmptyFavoritesMessage />;
   }
 
+
+  // if (!user || !user.id) {
+  //   return (
+  //     <Box minHeight={`calc(100vh - 100px)`}>
+  //       You must be signed in to see favorites.
+  //     </Box>
+  //   )
+  // } else if (favoriteResorts == 0) {
+  //   return (
+  //     <Box minHeight={`calc(100vh - 100px)`}>
+  //       No favorites for user.
+  //     </Box>
+  //   )
+  // }
+
   return (
-    <div>
+    <Box
+      minHeight={`calc(100vh - 100px)`}
+    >
       {loading ? (
         <Triangle
           height="80"
@@ -96,7 +109,7 @@ const FavoriteResorts = ({ user }) => {
         </Grid>
       )
       }
-    </div>
+    </Box>
   );
 };
 

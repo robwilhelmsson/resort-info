@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react"
 import axios from "axios"
-import { Box, Heading, Text, Select, Input, List, ListItem, Button, Grid } from '@chakra-ui/react';
+import { Box, Heading, Text, Select, Input, Button, Grid, Flex, Wrap, WrapItem } from '@chakra-ui/react';
 import { Triangle } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
@@ -16,7 +16,7 @@ const Resorts = ({ user }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [resortsPerPage] = useState(150);
+  const [resortsPerPage] = useState(100);
   const [favoriteResorts, setFavoriteResorts] = useState([]);
 
   const getFavoriteResorts = useCallback(async () => {
@@ -35,16 +35,17 @@ const Resorts = ({ user }) => {
   const fetchResorts = async () => {
     try {
       setLoading(true);
-      const savedResorts = localStorage.getItem("resorts"); // Check if resorts data exists in localStorage
+      const savedResorts = localStorage.getItem("resorts");
       if (savedResorts) {
-        // If resorts data exists in localStorage, use it
         setResorts(JSON.parse(savedResorts));
       } else {
-        // If resorts data doesn't exist in localStorage, fetch it from the API
+        await new Promise((resolve) => {
+          setTimeout(resolve, 2000); // Simulate loading delay of 2 seconds
+        })
         const response = await axios.get("http://127.0.0.1:4000/api/resorts");
         const resortData = response.data;
         setResorts(resortData);
-        localStorage.setItem("resorts", JSON.stringify(resortData)); // Save resorts data in localStorage
+        localStorage.setItem("resorts", JSON.stringify(resortData));
       }
       setLoading(false);
     } catch (error) {
@@ -141,7 +142,7 @@ const Resorts = ({ user }) => {
 
 
   return (
-    <div>
+    <Box background={'gray.300'} minHeight={`calc(100vh - 120px)`}>
       <Grid templateColumns="repeat(3, 1fr)" gap={6} p={10}>
         <Select placeholder='Select Country' value={selectedCountry} onChange={handleCountryChange}>
           <option value=''>All Countries</option>
@@ -176,19 +177,29 @@ const Resorts = ({ user }) => {
           <p>This can take some time on first load...</p>
         </div>
       ) : (
-        <Grid templateColumns="repeat(4, 1fr)" gap={2} mx={2} flexWrap="wrap" justifyContent='space-around' alignContent='center'>
+        <Grid
+          templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)", xl: "repeat(4, 1fr)",  '2xl': "repeat(5, 1fr)", }}
+          gap={2}
+          mx={5}
+          flexWrap="wrap"
+          justifyContent='space-around'
+          alignContent='center'
+        >
           {currentResorts.map((resort) => (
 
-            <Box key={resort.id} p="4" borderWidth="1px" borderRadius="md">
-              <Heading as="h2" size="md">{resort.name}</Heading>
-              <Text>Country: {resort.country}</Text>
-              <Text>Continent: {resort.continent}</Text>
-              {user && !checkIsResortFavorited(resort.id) && (
-                <Button onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
-              )}
-              <Link key={resort.id} to={`/resort/${resort.name}`}>
-                <Button>Resort Info</Button>
-              </Link>
+            <Box key={resort.id} p="12px" borderWidth="1px" borderRadius="md" background={'whiteAlpha.700'}>
+              <Heading size="md" fontWeight={400}>{resort.name}</Heading>
+              <Text fontSize={14} fontWeight={400} mt={1}>Country: {resort.country}</Text>
+              <Text fontSize={14} fontWeight={400} >Continent: {resort.continent}</Text>
+              <Box display={'flex'} mt={2}>
+                {user && !checkIsResortFavorited(resort.id) && (
+                  <Button h={'30px'} fontSize={'sm'} bg={'green.500'} color={'whiteAlpha.900'} mr={3} onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
+                )}
+                <Link key={resort.id} to={`/resort/${resort.name}`}>
+                  <Button border={'2px solid green'} h={'30px'} fontSize={'sm'}>Resort Info</Button>
+                </Link>
+              </Box>
+
             </Box>
           ))}
         </Grid>
@@ -196,10 +207,10 @@ const Resorts = ({ user }) => {
       }
       {
         totalPages > 1 && (
-          <Box mt="4">
-            <List display="flex" justifyContent="center" alignItems="center">
+          <Flex justify="center" align="center" px={'70px'} py={'40px'}>
+            <Wrap spacing={5} justify="center">
               {pageNumbers.map((pageNumber) => (
-                <ListItem key={pageNumber} mx="2">
+                <WrapItem key={pageNumber}>
                   <Button
                     size="sm"
                     variant={pageNumber === currentPage ? "solid" : "outline"}
@@ -207,13 +218,13 @@ const Resorts = ({ user }) => {
                   >
                     {pageNumber}
                   </Button>
-                </ListItem>
+                </WrapItem>
               ))}
-            </List>
-          </Box>
+            </Wrap>
+          </Flex>
         )
       }
-    </div >
+    </Box>
   );
 };
 

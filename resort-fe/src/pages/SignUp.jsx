@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Flex, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, Stack, Button, Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, Stack, Button, Text } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import backgroundImage from '../assets/resort-bg1.png'
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -53,35 +54,40 @@ const SignUp = () => {
 
   return (
     <Flex
-      minH={'100vh'}
+      display={'flex'}
+      backgroundImage={`url(${backgroundImage})`}
+      backgroundSize={'cover'}
+      backgroundPosition={'center'}
+      backgroundRepeat={'no-repeat'}
+      minHeight={`calc(100vh - 100px)`}
       align={'center'}
       justify={'center'}
-      bg={'gray.300'}>
+    >
       <Stack spacing={8} mx={'auto'} minW={'md'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'3xl'} textAlign={'center'}>
-            Sign Up
-          </Heading>
-        </Stack>
         <Box
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg={'gray.700'}
+          opacity={'0.8'}
           boxShadow={'lg'}
-          p={8}>
+          p={8}
+        >
+          <Text fontSize={'3xl'} textAlign={'center'} color={'whiteAlpha.900'}>
+            Sign Up
+          </Text>
           <form onSubmit={handleSubmit}>
             <Stack spacing={5}>
               <FormControl id="username" isRequired>
-                <FormLabel>Username</FormLabel>
-                <Input type="text" name="username" value={formData.username} onChange={handleInputChange} />
+                <FormLabel color={'whiteAlpha.900'}>Username</FormLabel>
+                <Input type="text" name="username" value={formData.username} onChange={handleInputChange} bg={'whiteAlpha.800'} color={'gray.800'} />
               </FormControl>
               <FormControl id="email" isRequired>
-                <FormLabel>Email address</FormLabel>
-                <Input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+                <FormLabel color={'whiteAlpha.900'}>Email address</FormLabel>
+                <Input type="email" name="email" value={formData.email} onChange={handleInputChange} bg={'whiteAlpha.800'} color={'gray.800'} />
               </FormControl>
               <FormControl id="password" isRequired>
-                <FormLabel>Password</FormLabel>
+                <FormLabel color={'whiteAlpha.900'}>Password</FormLabel>
                 <InputGroup>
-                  <Input type={showPassword ? 'text' : 'password'} name="password" value={formData.password} onChange={handleInputChange} />
+                  <Input type={showPassword ? 'text' : 'password'} name="password" value={formData.password} onChange={handleInputChange} bg={'whiteAlpha.800'} color={'gray.800'} />
                   <InputRightElement h={'full'}>
                     <Button
                       variant={'ghost'}
@@ -98,10 +104,10 @@ const SignUp = () => {
                   isLoading={loading}
                   loadingText="Submitting"
                   size="lg"
-                  bg={'blue.400'}
+                  bg={'green.600'}
                   color={'white'}
                   _hover={{
-                    bg: 'blue.500',
+                    bg: 'green.500',
                   }}
                   type="submit">
                   Sign up
@@ -115,8 +121,11 @@ const SignUp = () => {
             </Text>
           )}
           <Stack pt={6}>
-            <Text align={'center'}>
-              Already a user? <ReactRouterLink to={'/signin'}>Sign In</ReactRouterLink>
+            <Text align={'center'} color={'whiteAlpha.900'} >
+              Already have an account?{' '}
+              <ReactRouterLink to={'/signin'}>
+                <Box as={'span'} _hover={{ color: 'gray.400' }}>Sign In</Box>
+              </ReactRouterLink>
             </Text>
           </Stack>
         </Box>

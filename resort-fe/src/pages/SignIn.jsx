@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Flex, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, Stack, Button, Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, Stack, Button, Text } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import backgroundImage from '../assets/resort-bg1.png'
 
 
 const SignIn = ({ setUser }) => {
@@ -55,36 +56,41 @@ const SignIn = ({ setUser }) => {
 
   return (
     <Flex
-      minH={'100vh'}
+      display={'flex'}
+      backgroundImage={`url(${backgroundImage})`}
+      backgroundSize={'cover'}
+      backgroundPosition={'center'}
+      backgroundRepeat={'no-repeat'}
+      minHeight={`calc(100vh - 100px)`}
       align={'center'}
       justify={'center'}
-      bg={'gray.300'}
     >
-      <Stack spacing={8} mx={'auto'} minW={'md'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'3xl'} textAlign={'center'}>
-            Sign In
-          </Heading>
-        </Stack>
+      <Stack spacing={6} mx={'auto'} minW={'md'} maxW={'lg'} py={12} px={6}>
         <Box
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg={'gray.700'}
+          opacity={'0.8'}
           boxShadow={'lg'}
           p={8}
         >
+          <Text fontSize={'3xl'} textAlign={'center'} color={'whiteAlpha.900'}>
+            Sign In
+          </Text>
           <Stack spacing={5}>
             <FormControl id="email" isRequired>
-              <FormLabel>Email</FormLabel>
-              <Input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+              <FormLabel color={'whiteAlpha.900'}>Email</FormLabel>
+              <Input type="email" name="email" value={formData.email} onChange={handleInputChange} bg={'whiteAlpha.800'} color={'gray.800'} />
             </FormControl>
             <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
+              <FormLabel color={'whiteAlpha.900'}>Password</FormLabel>
               <InputGroup>
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
+                  color={'gray.800'}
+                  bg={'whiteAlpha.800'}
                 />
                 <InputRightElement h={'full'}>
                   <Button
@@ -101,10 +107,10 @@ const SignIn = ({ setUser }) => {
                 isLoading={loading}
                 loadingText="Submitting"
                 size="lg"
-                bg={'blue.400'}
+                bg={'green.600'}
                 color={'white'}
                 _hover={{
-                  bg: 'blue.500',
+                  bg: 'green.500',
                 }}
                 onClick={handleSignIn}
               >
@@ -118,9 +124,11 @@ const SignIn = ({ setUser }) => {
             </Text>
           )}
           <Stack pt={6}>
-            <Text align={'center'}>
+            <Text align={'center'} color={'whiteAlpha.900'} >
               Dont have an account?{' '}
-              <ReactRouterLink to={'/signup'}>Sign Up</ReactRouterLink>
+              <ReactRouterLink to={'/signup'}>
+                <Box as={'span'} _hover={{ color: 'gray.400' }}>Sign Up</Box>
+              </ReactRouterLink>
             </Text>
           </Stack>
         </Box>
