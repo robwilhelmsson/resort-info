@@ -11,15 +11,10 @@ with app.app_context():
         db.create_all()
         print("Seeding database.")
 
-        user_rob = UserModel(
-            email="rob@rob.com", username="rob", password="Password"
+        test_user = UserModel(
+            email="test@test.com", username="test user", password="Password"
         )
-        user_rob.save()
-
-        user_ted = UserModel(
-            email="ted@ted.com", username="ted", password="Password"
-        )
-        user_ted.save()
+        test_user.save()
 
         # verbier = ResortModel(name="Verbier")
         # verbier.save()

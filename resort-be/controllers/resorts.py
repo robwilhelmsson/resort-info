@@ -30,7 +30,7 @@ def resort_data(response):
 
 
 def all_resort_data_list():
-    url = "https://ski-resort-api.p.rapidapi.com/resort-list/country/france"
+    url = "https://ski-resort-api.p.rapidapi.com/resort-list"
     headers = {
         "X-RapidAPI-Key": "5cfa6e43e7mshf5e41a4a4130970p169d2ejsn7198fd4220d6",
         "X-RapidAPI-Host": "ski-resort-api.p.rapidapi.com",
