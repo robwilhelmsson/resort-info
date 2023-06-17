@@ -41,8 +41,7 @@ const SignIn = ({ setUser }) => {
       localStorage.setItem('user', JSON.stringify(user));
 
       setUser(user);
-      // console.log(user)
-      navigate('/resorts');
+      navigate('/');
     } catch (error) {
       if (error.response) {
         setError(error.response.data.messages || 'Password or email is incorrect.');

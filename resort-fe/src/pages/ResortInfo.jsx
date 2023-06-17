@@ -3,6 +3,7 @@ import axios from "axios";
 import { Triangle } from "react-loader-spinner";
 import { Heading, Text, Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 const ResortInfo = () => {
   const { name } = useParams();
@@ -14,7 +15,6 @@ const ResortInfo = () => {
       try {
         setLoading(true);
         const formattedName = name
-          
           .replace(/Grandvalira El Tarter/g, "GrandvaliraElTarter")
           .replace(/Grandvalira-Canillo/g, "Canillo")
           .replace(/Grandvalira-Encamp/g, "Encamp")
@@ -27,7 +27,6 @@ const ResortInfo = () => {
           .replace(/'/g, " ")
           .replace(/\s+/g, "-")
           .replace(/Abries-Ristolas/g, "Abries")
-
         const response = await axios.get(
           `https://ski-resort-api.p.rapidapi.com/resort/${formattedName}`,
           {
@@ -59,95 +58,110 @@ const ResortInfo = () => {
     return <div>No data found.</div>;
   }
 
+  const InfoBox = ({ title, children }) => (
+    <Box marginBottom="20px" borderRadius="3px" width="fit-content" height="fit-content" px="12px" py="5px" bg="whiteAlpha.700">
+      <Heading as="h3" fontSize="2xl" fontWeight="400" pb="5px">
+        {title}
+      </Heading>
+      {children}
+    </Box>
+  );
+
+  const InfoText = ({ children }) => (
+    <Text fontSize="lg" fontWeight="300">
+      {children}
+    </Text>
+  );
+
   return (
-    <Box maxWidth="800px" padding="20px">
-      <Heading as="h1" marginBottom="20px">
+    <Box padding="30px" bg={'gray.300'} minHeight={`calc(100vh - 100px)`}>
+
+      <Heading as={"h1"} marginBottom="20px" fontWeight={500} display={'flex'} px={'20px'}>
         {resortInfo.name}
       </Heading>
 
-      <Box marginBottom="20px">
-        <Text fontWeight="bold">Location</Text>
-        <Text>Country: {resortInfo.location.country}</Text>
-        <Text>Continent: {resortInfo.location.continent}</Text>
+      <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} gap={'8'}>
+
+        <InfoBox title="Location">
+          <InfoText>Country: {resortInfo.location.country}</InfoText>
+          <InfoText>Continent: {resortInfo.location.continent}</InfoText>
+        </InfoBox>
+
+        <InfoBox title="Altitude">
+          <InfoText>Top Altitude: {resortInfo.virtical.topAltitude}</InfoText>
+          <InfoText>Bottom Altitude: {resortInfo.virtical.bottomAltitude}</InfoText>
+          <InfoText>Total Vertical: {resortInfo.virtical.totalVertical}</InfoText>
+        </InfoBox>
+
+        <InfoBox title="Pistes">
+          <InfoText>Total: {resortInfo.pistes.total}</InfoText>
+          <InfoText>Black Pistes: {resortInfo.pistes.blackPistes}</InfoText>
+          <InfoText>Red Pistes: {resortInfo.pistes.redPistes}</InfoText>
+          <InfoText>Blue Pistes: {resortInfo.pistes.bluePistes}</InfoText>
+          <InfoText>Skill level: {resortInfo.skillLevel}</InfoText>
+        </InfoBox>
+
+        <InfoBox title="Lifts">
+          <InfoText>Total: {resortInfo.lifts.total}</InfoText>
+          <InfoText>Chair lifts: {resortInfo.lifts.chairLifts}</InfoText>
+          <InfoText>Drag lifts: {resortInfo.lifts.dragLifts}</InfoText>
+          <InfoText>Gondola lifts: {resortInfo.lifts.gondolaLifts}</InfoText>
+        </InfoBox>
+
+        <InfoBox title="Rating">
+          <InfoText>Overall: {resortInfo.rating.overall}</InfoText>
+          <InfoText>Apres Ski: {resortInfo.rating.ratingByItem?.apresSki}</InfoText>
+          <InfoText>Off-piste: {resortInfo.rating.ratingByItem?.offPiste}</InfoText>
+          <InfoText>Scenery: {resortInfo.rating.ratingByItem?.scenery}</InfoText>
+          <InfoText>Snowsure: {resortInfo.rating.ratingByItem?.snowsure}</InfoText>
+          <InfoText>Variety of pistes: {resortInfo.rating.ratingByItem?.varietyOfPistes}</InfoText>
+        </InfoBox>
+
+        <InfoBox title="Features">
+          <Text>Cross country skiing: {resortInfo.features?.crossCountrySkiing || "No data available."}</Text>
+          <Text>Terrain Parks: {resortInfo.features?.terrainParks || "No data available."}</Text>
+        </InfoBox>
+
+        <InfoBox title="Information">
+          <Text fontWeight={'500'} fontSize={'lg'}>
+            Restaurants and Bars:
+            <InfoText>Total bars: {resortInfo.information.restaurantsBars?.bars || "No data available."}</InfoText>
+            <InfoText>Total restaurants: {resortInfo.information.restaurantsBars?.restaurants || "No data available."}</InfoText>
+          </Text>
+          <Text fontWeight={'500'} fontSize={'lg'}>
+            Season Dates:
+            <InfoText>Season Open: {resortInfo.information.seasonalDates?.seasonOpen || "No data available."}</InfoText>
+            <InfoText>Season Close: {resortInfo.information.seasonalDates?.seasonClose || "No data available."}</InfoText>
+          </Text>
+          <Text fontWeight={'500'} fontSize={'lg'}>
+            Tourist Office:
+            <InfoText>Tourist Office Email: {resortInfo.information.touristOffice?.touristOfficeEmail || "No data available."}</InfoText>
+            <InfoText>Tourist Office Phone: {resortInfo.information.touristOffice?.touristOfficePhone || "No data available."}</InfoText>
+          </Text>
+          <Text fontWeight={'500'} fontSize={'lg'}>
+            Transport:
+            <InfoText>Nearest Airport: {resortInfo.information.transport?.nearestAirport || "No data available."}</InfoText>
+            <InfoText>Nearest Train Station: {resortInfo.information.transport?.nearestTrainStation || "No data available."}</InfoText>
+          </Text>
+        </InfoBox>
+
+        <InfoBox title="Nearest Resorts">
+          {resortInfo.nearestResorts.map((nearestResort, index) => (
+            <Box key={index}>
+              <InfoText>{nearestResort.name}: {nearestResort.distance}</InfoText>
+            </Box>
+          ))}
+        </InfoBox>
+
       </Box>
 
-      <Box marginBottom="20px">
-        <Text fontWeight="bold">Altitude</Text>
-        <Text>Top Altitude: {resortInfo.virtical.topAltitude}</Text>
-        <Text>Bottom Altitude: {resortInfo.virtical.bottomAltitude}</Text>
-        <Text>Total Vertical: {resortInfo.virtical.totalVertical}</Text>
-      </Box>
-
-      <Box marginBottom="20px">
-        <Text fontWeight="bold">Pistes</Text>
-        <Text>Total: {resortInfo.pistes.total}</Text>
-        <Text>Black Pistes: {resortInfo.pistes.blackPistes}</Text>
-        <Text>Red Pistes: {resortInfo.pistes.redPistes}</Text>
-        <Text>Blue Pistes: {resortInfo.pistes.bluePistes}</Text>
-        <Text>Skill level: {resortInfo.skillLevel}</Text>
-      </Box>
-
-      <Box marginBottom="20px">
-        <Text fontWeight="bold">Lifts</Text>
-        <Text>Total: {resortInfo.lifts.total}</Text>
-        <Text>Chair lifts: {resortInfo.lifts.chairLifts}</Text>
-        <Text>Drag lifts: {resortInfo.lifts.dragLifts}</Text>
-        <Text>Gondola lifts: {resortInfo.lifts.gondolaLifts}</Text>
-      </Box>
-
-      <Box marginBottom="20px">
-        <Text fontWeight="bold">Rating</Text>
-        <Text>Total: {resortInfo.rating.overall}</Text>
-        <Box>
-          <Text>Apres Ski: {resortInfo.rating.ratingByItem?.apresSki}</Text>
-          <Text>Off-piste: {resortInfo.rating.ratingByItem?.offPiste}</Text>
-          <Text>Scenery: {resortInfo.rating.ratingByItem?.scenery}</Text>
-          <Text>Snowsure: {resortInfo.rating.ratingByItem?.snowsure}</Text>
-          <Text>Variety of pistes: {resortInfo.rating.ratingByItem?.varietyOfPistes}</Text>
-        </Box>
-      </Box>
-
-      <Box marginBottom="20px">
-        <Text fontWeight="bold">Features</Text>
-        <Text>Cross country skiing: {resortInfo.features?.crossCountrySkiing || "No data available."}</Text>
-        <Text>Terrain Parks: {resortInfo.features?.terrainParks || "No data available."}</Text>
-      </Box>
-
-      <Box marginBottom="20px">
-        <Text fontWeight="bold">Information</Text>
-        <Box>
-          <Text>Restaurants and Bars</Text>
-          <Text>Total bars: {resortInfo.information.restaurantsBars?.bars || "No data available."}</Text>
-          <Text>Total restaurants: {resortInfo.information.restaurantsBars?.restaurants || "No data available."}</Text>
-        </Box>
-        <Box>
-          <Text>Season Dates</Text>
-          <Text>Season Open: {resortInfo.information.seasonalDates?.seasonOpen || "No data available."}</Text>
-          <Text>Season Close: {resortInfo.information.seasonalDates?.seasonClose || "No data available."}</Text>
-        </Box>
-        <Box>
-          <Text>Tourist Office</Text>
-          <Text>Tourist Office Email: {resortInfo.information.touristOffice?.touristOfficeEmail || "No data available."}</Text>
-          <Text>Tourist Office Phone: {resortInfo.information.touristOffice?.touristOfficePhone || "No data available."}</Text>
-        </Box>
-        <Box>
-          <Text>Transport</Text>
-          <Text>Nearest Airport: {resortInfo.information.transport?.nearestAirport || "No data available."}</Text>
-          <Text>Nearest Train Station: {resortInfo.information.transport?.nearestTrainStation || "No data available."}</Text>
-        </Box>
-      </Box>
-
-      <Box marginBottom="20px">
-        <Text fontWeight="bold">Nearest Resorts</Text>
-        {resortInfo.nearestResorts.map((nearestResort, index) => (
-          <Box key={index}>
-            <Text>{nearestResort.name}</Text>
-            <Text>{nearestResort.distance}</Text>
-          </Box>
-        ))}
-      </Box>
     </Box>
   );
 };
+
+ResortInfo.propTypes = {
+  title: PropTypes.string,
+  children: PropTypes.string
+}
 
 export default ResortInfo;

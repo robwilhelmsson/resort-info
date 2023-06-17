@@ -18,7 +18,6 @@ const FavoriteResorts = ({ user }) => {
         const resortsData = await fetchResortsData(favoriteResortIds);
         setFavoriteResorts(resortsData);
         setLoading(false)
-        // console.log(favoriteResorts)
       } catch (error) {
         console.error(error);
         setLoading(false)
@@ -55,29 +54,16 @@ const FavoriteResorts = ({ user }) => {
   };
 
   const EmptyFavoritesMessage = () => (
-    <Box minHeight={`calc(100vh - 100px)`}>
-      {user ? "No favorites for user." : "You must be signed in to see favorites."}
+    <Box minHeight={`calc(100vh - 100px)`} bg={'gray.300'} display={'flex'} p={'50px'}>
+      <Text fontSize={'xl'} fontWeight={'400'}>
+        {user ? "No favorites for user." : "You must be signed in to see favorites."}
+      </Text>
     </Box>
   );
 
   if (!user || !user.id || favoriteResorts.length === 0) {
     return <EmptyFavoritesMessage />;
   }
-
-
-  // if (!user || !user.id) {
-  //   return (
-  //     <Box minHeight={`calc(100vh - 100px)`}>
-  //       You must be signed in to see favorites.
-  //     </Box>
-  //   )
-  // } else if (favoriteResorts == 0) {
-  //   return (
-  //     <Box minHeight={`calc(100vh - 100px)`}>
-  //       No favorites for user.
-  //     </Box>
-  //   )
-  // }
 
   return (
     <Box

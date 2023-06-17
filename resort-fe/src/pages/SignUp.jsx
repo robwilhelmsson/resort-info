@@ -22,11 +22,30 @@ const SignUp = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Z]).{8,}$/;
+    return passwordRegex.test(password);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const { username, email, password } = formData;
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError('Password must be at least 8 characters long and contain one capital letter');
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -41,6 +60,7 @@ const SignUp = () => {
       navigate('/signin');
 
     } catch (error) {
+      console.log(error)
       if (error.response) {
         setError(error.response.data.errors || 'Something went wrong');
         console.log(error)
@@ -80,9 +100,9 @@ const SignUp = () => {
                 <FormLabel color={'whiteAlpha.900'}>Username</FormLabel>
                 <Input type="text" name="username" value={formData.username} onChange={handleInputChange} bg={'whiteAlpha.800'} color={'gray.800'} />
               </FormControl>
-              <FormControl id="email" isRequired>
+              <FormControl id="email" isRequired isInvalid={false}>
                 <FormLabel color={'whiteAlpha.900'}>Email address</FormLabel>
-                <Input type="email" name="email" value={formData.email} onChange={handleInputChange} bg={'whiteAlpha.800'} color={'gray.800'} />
+                <Input type="" name="email" value={formData.email} onChange={handleInputChange} bg={'whiteAlpha.800'} color={'gray.800'} />
               </FormControl>
               <FormControl id="password" isRequired>
                 <FormLabel color={'whiteAlpha.900'}>Password</FormLabel>

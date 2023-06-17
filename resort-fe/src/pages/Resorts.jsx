@@ -40,7 +40,7 @@ const Resorts = ({ user }) => {
         setResorts(JSON.parse(savedResorts));
       } else {
         await new Promise((resolve) => {
-          setTimeout(resolve, 2000); // Simulate loading delay of 2 seconds
+          setTimeout(resolve, 2000);
         })
         const response = await axios.get("http://127.0.0.1:4000/api/resorts");
         const resortData = response.data;
@@ -193,10 +193,10 @@ const Resorts = ({ user }) => {
               <Text fontSize={14} fontWeight={400} >Continent: {resort.continent}</Text>
               <Box display={'flex'} mt={2}>
                 {user && !checkIsResortFavorited(resort.id) && (
-                  <Button h={'30px'} fontSize={'sm'} bg={'green.500'} color={'whiteAlpha.900'} mr={3} onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
+                  <Button h={'30px'} fontSize={'sm'} bg={'green.500'} color={'whiteAlpha.900'} mr={3} _hover={{bg: 'green.400', color: 'whiteAlpha.700'}} onClick={() => addFavoriteResort(resort.id)}>Add Favorite</Button>
                 )}
                 <Link key={resort.id} to={`/resort/${resort.name}`}>
-                  <Button border={'2px solid green'} h={'30px'} fontSize={'sm'}>Resort Info</Button>
+                  <Button border={'1px solid green'} h={'30px'} fontSize={'sm'} _hover={{bg: 'gray.200', color: 'gray.500'}}>Resort Info</Button>
                 </Link>
               </Box>
 
