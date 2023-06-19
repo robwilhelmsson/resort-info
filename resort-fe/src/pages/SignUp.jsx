@@ -4,6 +4,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import backgroundImage from '../assets/resort-bg1.png'
+import { baseUrl } from '../config';
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +52,7 @@ const SignUp = () => {
     setError(null);
 
     try {
-      await axios.post('http://127.0.0.1:4000/api/signup', {
+      await axios.post(`${baseUrl}/signup`, {
         username,
         email,
         password,

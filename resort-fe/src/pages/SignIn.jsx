@@ -5,6 +5,7 @@ import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import backgroundImage from '../assets/resort-bg1.png'
+import { baseUrl } from '../config';
 
 
 const SignIn = ({ setUser }) => {
@@ -30,7 +31,7 @@ const SignIn = ({ setUser }) => {
     setError(null);
 
     try {
-      const response = await axios.post('http://127.0.0.1:4000/api/signin', {
+      const response = await axios.post(`${baseUrl}/signin`, {
         email,
         password,
       });

@@ -4,6 +4,7 @@ import { Box, Heading, Text, Select, Input, Button, Grid, Flex, Wrap, WrapItem }
 import { Triangle } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
+import { baseUrl } from "../config";
 
 
 const Resorts = ({ user }) => {
@@ -24,7 +25,7 @@ const Resorts = ({ user }) => {
       if (!user || !user.id) {
         return;
       }
-      const response = await axios.get(`http://127.0.0.1:4000/api/users/${user.id}/favorites`);
+      const response = await axios.get(`${baseUrl}/users/${user.id}/favorites`);
       const favoriteResortsData = response.data.favorite_resorts ? response.data.favorite_resorts.map((id) => id.id) : [];
       setFavoriteResorts(favoriteResortsData);
     } catch (error) {
@@ -42,7 +43,7 @@ const Resorts = ({ user }) => {
         await new Promise((resolve) => {
           setTimeout(resolve, 2000);
         })
-        const response = await axios.get("http://127.0.0.1:4000/api/resorts");
+        const response = await axios.get(`${baseUrl}/resorts`);
         const resortData = response.data;
         setResorts(resortData);
         localStorage.setItem("resorts", JSON.stringify(resortData));
@@ -124,7 +125,7 @@ const Resorts = ({ user }) => {
         return;
       }
 
-      await axios.post(`http://127.0.0.1:4000/api/users/${user.id}/favorites`, {
+      await axios.post(`${baseUrl}/users/${user.id}/favorites`, {
         resort_id: resortId
       });
       await getFavoriteResorts();

@@ -4,6 +4,7 @@ import { Triangle } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import { baseUrl } from "../config";
 
 const FavoriteResorts = ({ user }) => {
   const [favoriteResorts, setFavoriteResorts] = useState([]);
@@ -13,7 +14,7 @@ const FavoriteResorts = ({ user }) => {
     const fetchFavoriteResorts = async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`http://127.0.0.1:4000/api/users/${user.id}/favorites`);
+        const response = await axios.get(`${baseUrl}/users/${user.id}/favorites`);
         const favoriteResortIds = response.data.favorite_resorts ? response.data.favorite_resorts.map((id) => id.id) : [];
         const resortsData = await fetchResortsData(favoriteResortIds);
         setFavoriteResorts(resortsData);
@@ -32,7 +33,7 @@ const FavoriteResorts = ({ user }) => {
   const fetchResortsData = async (resortIds) => {
     try {
       const resortDataPromises = resortIds.map(async (resortId) => {
-        const response = await axios.get(`http://127.0.0.1:4000/api/resorts/${resortId}`);
+        const response = await axios.get(`${baseUrl}/resorts/${resortId}`);
         return response.data;
       });
 
@@ -46,7 +47,7 @@ const FavoriteResorts = ({ user }) => {
 
   const removeFavoriteResort = async (resortId) => {
     try {
-      await axios.delete(`http://127.0.0.1:4000/api/users/${user.id}/favorites/${resortId}`)
+      await axios.delete(`${baseUrl}/users/${user.id}/favorites/${resortId}`)
       setFavoriteResorts((prevResorts) => prevResorts.filter((resort) => resort.id !== resortId));
     } catch (error) {
       console.error(error);
