@@ -7,7 +7,6 @@ app = "resort-info"
 primary_region = "lhr"
 
 [build]
-  builder = "paketobuildpacks/builder:full"
 
 [env]
 

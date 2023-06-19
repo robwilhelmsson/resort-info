@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.9
 
 ARG ENV_FILE=.env
 ENV ENV_FILE=${ENV_FILE}
