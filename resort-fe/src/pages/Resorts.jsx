@@ -143,7 +143,7 @@ const Resorts = ({ user }) => {
 
 
   return (
-    <Box background={'gray.300'} minHeight={`calc(100vh - 120px)`}>
+    <Box background={'gray.300'} minHeight={`calc(100vh - 100px)`}>
       <Grid templateColumns="repeat(3, 1fr)" gap={6} p={10}>
         <Select placeholder='Select Country' value={selectedCountry} onChange={handleCountryChange}>
           <option value=''>All Countries</option>

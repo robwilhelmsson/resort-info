@@ -26,7 +26,7 @@ const SignIn = ({ setUser }) => {
 
   const handleSignIn = async () => {
     const { email, password } = formData;
-
+    console.log(baseUrl)
     setLoading(true);
     setError(null);
 
@@ -35,7 +35,7 @@ const SignIn = ({ setUser }) => {
         email,
         password,
       });
-
+      
       const { token, user } = response.data;
 
       localStorage.setItem('token', token);
