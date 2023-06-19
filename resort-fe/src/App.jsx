@@ -8,7 +8,7 @@ import Favorites from './pages/Favorites';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Footer from './components/Footer';
-import '../src/App.css'
+
 
 const App = () => {
   const [user, setUser] = useState(null);
