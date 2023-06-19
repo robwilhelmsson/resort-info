@@ -45,6 +45,7 @@ const FavoriteResorts = ({ user }) => {
     }
   };
 
+
   const removeFavoriteResort = async (resortId) => {
     try {
       await axios.delete(`${baseUrl}/users/${user.id}/favorites/${resortId}`)
@@ -69,6 +70,9 @@ const FavoriteResorts = ({ user }) => {
   return (
     <Box
       minHeight={`calc(100vh - 100px)`}
+      bg={'gray.300'}
+      pt={'40px'}
+      px={'40px'}
     >
       {loading ? (
         <Triangle
@@ -81,16 +85,26 @@ const FavoriteResorts = ({ user }) => {
           visible={true}
         />
       ) : (
-        <Grid templateColumns="repeat(4, 1fr)" gap={2} mx={2} flexWrap="wrap" justifyContent='space-around' alignContent='center'>
+        <Grid
+          templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)", xl: "repeat(4, 1fr)", '2xl': "repeat(5, 1fr)", }}
+          gap={2}
+          mx={5}
+          flexWrap="wrap"
+          justifyContent='space-around'
+          alignContent='center'
+        >
           {favoriteResorts.map((resort) => (
-            <Box key={resort.id} p="4" borderWidth="1px" borderRadius="md">
-              <Heading as="h2" size="md">{resort.name}</Heading>
-              <Text>Country: {resort.country}</Text>
-              <Text>Continent: {resort.continent}</Text>
-              <Button onClick={() => removeFavoriteResort(resort.id)}>Remove Favorite</Button>
-              <Link key={resort.id} to={`/resort/${resort.name}`}>
-                <Button>Resort Info</Button>
-              </Link>
+
+            <Box key={resort.id} p="12px" borderWidth="1px" borderRadius="md" background={'whiteAlpha.700'}>
+              <Heading size="md" fontWeight={400}>{resort.name}</Heading>
+              <Text fontSize={14} fontWeight={400} mt={1}>Country: {resort.country}</Text>
+              <Text fontSize={14} fontWeight={400} mt={1}>Continent: {resort.continent}</Text>
+              <Box display={'flex'} mt={2}>
+                <Button h={'30px'} fontSize={'sm'} bg={'green.500'} color={'whiteAlpha.900'} mr={3} _hover={{bg: 'green.400', color: 'whiteAlpha.700'}} onClick={() => removeFavoriteResort(resort.id)}>Remove Favorite</Button>
+                <Link key={resort.id} to={`/resort/${resort.name}`}>
+                  <Button border={'1px solid green'} h={'30px'} fontSize={'sm'} _hover={{bg: 'gray.200', color: 'gray.500'}}>Resort Info</Button>
+                </Link>
+              </Box>
             </Box>
           ))}
         </Grid>

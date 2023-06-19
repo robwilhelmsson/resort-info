@@ -165,7 +165,7 @@ const Resorts = ({ user }) => {
       </Grid>
 
       {loading ? (
-        <div>
+        <Flex direction="column" align="center" justify="center">
           <Triangle
             height="80"
             width="80"
@@ -175,8 +175,8 @@ const Resorts = ({ user }) => {
             wrapperClassName=""
             visible={true}
           />
-          <p>This can take some time on first load...</p>
-        </div>
+          <Text mt={5}>This can take some time on first load...</Text>
+        </Flex>
       ) : (
         <Grid
           templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)", xl: "repeat(4, 1fr)",  '2xl': "repeat(5, 1fr)", }}
@@ -200,7 +200,6 @@ const Resorts = ({ user }) => {
                   <Button border={'1px solid green'} h={'30px'} fontSize={'sm'} _hover={{bg: 'gray.200', color: 'gray.500'}}>Resort Info</Button>
                 </Link>
               </Box>
-
             </Box>
           ))}
         </Grid>
