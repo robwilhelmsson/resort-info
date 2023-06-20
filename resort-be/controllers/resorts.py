@@ -3,13 +3,9 @@ from flask import Blueprint, request
 from marshmallow.exceptions import ValidationError
 
 from models.resort import ResortModel
-# from models.resort_info import ResortInfoModel
 from serializers.resort import ResortSchema
-# from serializers.resort_info import ResortInfoSchema
-
 
 resort_schema = ResortSchema()
-# resort_info_schema = ResortInfoSchema()
 
 router = Blueprint("resorts", __name__)
 
