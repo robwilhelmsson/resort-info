@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Box, Heading, Text, Button, Grid } from '@chakra-ui/react';
+import { Box, Heading, Text, Button, Grid } from "@chakra-ui/react";
 import { Triangle } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { baseUrl } from "../config";
 
 const FavoriteResorts = ({ user }) => {
@@ -24,7 +24,6 @@ const FavoriteResorts = ({ user }) => {
         setLoading(false)
       }
     };
-
     if (user && user.id) {
       fetchFavoriteResorts();
     }
@@ -45,7 +44,6 @@ const FavoriteResorts = ({ user }) => {
     }
   };
 
-
   const removeFavoriteResort = async (resortId) => {
     try {
       await axios.delete(`${baseUrl}/users/${user.id}/favorites/${resortId}`)
@@ -56,8 +54,8 @@ const FavoriteResorts = ({ user }) => {
   };
 
   const EmptyFavoritesMessage = () => (
-    <Box minHeight={`calc(100vh - 100px)`} bg={'gray.300'} display={'flex'} p={'50px'}>
-      <Text fontSize={'xl'} fontWeight={'400'}>
+    <Box minHeight={`calc(100vh - 100px)`} bg={"gray.300"} display={"flex"} p={"50px"}>
+      <Text fontSize={"xl"} fontWeight={"400"}>
         {user ? "No favorites for user." : "You must be signed in to see favorites."}
       </Text>
     </Box>
@@ -70,9 +68,9 @@ const FavoriteResorts = ({ user }) => {
   return (
     <Box
       minHeight={`calc(100vh - 100px)`}
-      bg={'gray.300'}
-      pt={'40px'}
-      px={'40px'}
+      bg={"gray.300"}
+      pt={"40px"}
+      px={"40px"}
     >
       {loading ? (
         <Triangle
@@ -86,23 +84,23 @@ const FavoriteResorts = ({ user }) => {
         />
       ) : (
         <Grid
-          templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)", xl: "repeat(4, 1fr)", '2xl': "repeat(5, 1fr)", }}
+          templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)", xl: "repeat(4, 1fr)", "2xl": "repeat(5, 1fr)", }}
           gap={2}
           mx={5}
           flexWrap="wrap"
-          justifyContent='space-around'
-          alignContent='center'
+          justifyContent="space-around"
+          alignContent="center"
         >
           {favoriteResorts.map((resort) => (
 
-            <Box key={resort.id} p="12px" borderWidth="1px" borderRadius="md" background={'whiteAlpha.700'}>
+            <Box key={resort.id} p="12px" borderWidth="1px" borderRadius="md" background={"whiteAlpha.700"}>
               <Heading size="md" fontWeight={400}>{resort.name}</Heading>
               <Text fontSize={14} fontWeight={400} mt={1}>Country: {resort.country}</Text>
               <Text fontSize={14} fontWeight={400} mt={1}>Continent: {resort.continent}</Text>
-              <Box display={'flex'} mt={2}>
-                <Button h={'30px'} fontSize={'sm'} bg={'green.500'} color={'whiteAlpha.900'} mr={3} _hover={{bg: 'green.400', color: 'whiteAlpha.700'}} onClick={() => removeFavoriteResort(resort.id)}>Remove Favorite</Button>
+              <Box display={"flex"} mt={2}>
+                <Button h={"30px"} fontSize={"sm"} bg={"green.500"} color={"whiteAlpha.900"} mr={3} _hover={{bg: "green.400", color: "whiteAlpha.700"}} onClick={() => removeFavoriteResort(resort.id)}>Remove Favorite</Button>
                 <Link key={resort.id} to={`/resort/${resort.name}`}>
-                  <Button border={'1px solid green'} h={'30px'} fontSize={'sm'} _hover={{bg: 'gray.200', color: 'gray.500'}}>Resort Info</Button>
+                  <Button border={"1px solid green"} h={"30px"} fontSize={"sm"} _hover={{bg: "gray.200", color: "gray.500"}}>Resort Info</Button>
                 </Link>
               </Box>
             </Box>

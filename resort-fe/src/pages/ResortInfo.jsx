@@ -3,7 +3,7 @@ import axios from "axios";
 import { Triangle } from "react-loader-spinner";
 import { Heading, Text, Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const ResortInfo = () => {
   const { name } = useParams();
@@ -68,19 +68,19 @@ const ResortInfo = () => {
   );
 
   const InfoText = ({ children }) => (
-    <Text fontSize="lg" fontWeight="300">
+    <Text as={"span"} fontSize="lg" fontWeight="300" display={"flex"}>
       {children}
     </Text>
   );
 
   return (
-    <Box padding="30px" bg={'gray.300'} minHeight={`calc(100vh - 100px)`}>
+    <Box padding="30px" bg={"gray.300"} minHeight={`calc(100vh - 100px)`}>
 
-      <Heading as={"h1"} marginBottom="20px" fontWeight={500} display={'flex'} px={'20px'}>
+      <Heading as={"h1"} marginBottom="20px" fontWeight={500} display={"flex"} px={"20px"}>
         {resortInfo.name}
       </Heading>
 
-      <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} gap={'8'}>
+      <Box display={"flex"} flexDirection={"row"} flexWrap={"wrap"} gap={"8"}>
 
         <InfoBox title="Location">
           <InfoText>Country: {resortInfo.location.country}</InfoText>
@@ -123,22 +123,22 @@ const ResortInfo = () => {
         </InfoBox>
 
         <InfoBox title="Information">
-          <Text fontWeight={'500'} fontSize={'lg'}>
+          <Text fontWeight={"500"} fontSize={"lg"}>
             Restaurants and Bars:
             <InfoText>Total bars: {resortInfo.information.restaurantsBars?.bars || "No data available."}</InfoText>
             <InfoText>Total restaurants: {resortInfo.information.restaurantsBars?.restaurants || "No data available."}</InfoText>
           </Text>
-          <Text fontWeight={'500'} fontSize={'lg'}>
+          <Text fontWeight={"500"} fontSize={"lg"}>
             Season Dates:
             <InfoText>Season Open: {resortInfo.information.seasonalDates?.seasonOpen || "No data available."}</InfoText>
             <InfoText>Season Close: {resortInfo.information.seasonalDates?.seasonClose || "No data available."}</InfoText>
           </Text>
-          <Text fontWeight={'500'} fontSize={'lg'}>
+          <Text fontWeight={"500"} fontSize={"lg"}>
             Tourist Office:
             <InfoText>Tourist Office Email: {resortInfo.information.touristOffice?.touristOfficeEmail || "No data available."}</InfoText>
             <InfoText>Tourist Office Phone: {resortInfo.information.touristOffice?.touristOfficePhone || "No data available."}</InfoText>
           </Text>
-          <Text fontWeight={'500'} fontSize={'lg'}>
+          <Text fontWeight={"500"} fontSize={"lg"}>
             Transport:
             <InfoText>Nearest Airport: {resortInfo.information.transport?.nearestAirport || "No data available."}</InfoText>
             <InfoText>Nearest Train Station: {resortInfo.information.transport?.nearestTrainStation || "No data available."}</InfoText>
