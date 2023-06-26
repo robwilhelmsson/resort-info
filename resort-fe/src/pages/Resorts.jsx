@@ -46,7 +46,7 @@ const Resorts = ({ user }) => {
         const response = await axios.get(`${baseUrl}/resorts`);
         const resortData = response.data;
         setResorts(resortData);
-        localStorage.setItem("resorts", JSON.stringify(resortData));
+        // localStorage.setItem("resorts", JSON.stringify(resortData));
       }
       setLoading(false);
     } catch (error) {
@@ -58,6 +58,7 @@ const Resorts = ({ user }) => {
   useEffect(() => {
     fetchResorts()
     getFavoriteResorts()
+    // setLoading(false)
   }, [user, getFavoriteResorts]);
 
   const filterResortsByCountry = useCallback(() => {
@@ -182,6 +183,7 @@ const Resorts = ({ user }) => {
           templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)", xl: "repeat(4, 1fr)",  '2xl': "repeat(5, 1fr)", }}
           gap={2}
           mx={5}
+          pb={5}
           flexWrap="wrap"
           justifyContent='space-around'
           alignContent='center'
