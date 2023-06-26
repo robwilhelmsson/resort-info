@@ -39,7 +39,7 @@ def all_resort_data_list():
 @router.route("/resorts", methods=["GET"])
 def get_resorts():
     page = int(request.args.get("page", 1))
-    resorts_per_page = int(request.args.get("resorts_per_page", 10000))
+    resorts_per_page = int(request.args.get("resorts_per_page", 5000))
     offset = (page - 1) * resorts_per_page
     limit = resorts_per_page
     resorts = ResortModel.query.offset(offset).limit(limit).all()
