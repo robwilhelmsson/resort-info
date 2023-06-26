@@ -26,7 +26,7 @@ def resort_data(response):
 
 
 def all_resort_data_list():
-    url = "https://ski-resort-api.p.rapidapi.com/resort-list/country/france"
+    url = "https://ski-resort-api.p.rapidapi.com/resort-list"
     headers = {
         "X-RapidAPI-Key": "5cfa6e43e7mshf5e41a4a4130970p169d2ejsn7198fd4220d6",
         "X-RapidAPI-Host": "ski-resort-api.p.rapidapi.com",
@@ -38,7 +38,16 @@ def all_resort_data_list():
 #! Get all resorts
 @router.route("/resorts", methods=["GET"])
 def get_resorts():
-    resorts = ResortModel.query.all()
+    page = int(request.args.get("page", 1))
+    resorts_per_page = int(request.args.get("resorts_per_page", 10000))
+
+    # Calculate the offset and limit based on the page number and resorts per page
+    offset = (page - 1) * resorts_per_page
+    limit = resorts_per_page
+
+    # Retrieve the resorts based on the offset and limit
+    resorts = ResortModel.query.offset(offset).limit(limit).all()
+
     return resort_schema.jsonify(resorts, many=True)
 
 #! Get one resorts by ID
