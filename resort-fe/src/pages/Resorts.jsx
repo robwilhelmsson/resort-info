@@ -46,19 +46,18 @@ const Resorts = ({ user }) => {
         const response = await axios.get(`${baseUrl}/resorts`);
         const resortData = response.data;
         setResorts(resortData);
-        // localStorage.setItem("resorts", JSON.stringify(resortData));
+        localStorage.setItem("resorts", JSON.stringify(resortData));
       }
-      setLoading(false);
     } catch (error) {
       console.error(error);
-      setLoading(false);
+    } finally {
+      setLoading(false)
     }
   };
 
   useEffect(() => {
     fetchResorts()
     getFavoriteResorts()
-    // setLoading(false)
   }, [user, getFavoriteResorts]);
 
   const filterResortsByCountry = useCallback(() => {
