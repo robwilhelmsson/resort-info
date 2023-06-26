@@ -43,7 +43,6 @@ def get_resorts():
     offset = (page - 1) * resorts_per_page
     limit = resorts_per_page
     resorts = ResortModel.query.offset(offset).limit(limit).all()
-
     return resort_schema.jsonify(resorts, many=True)
 
 #! Get one resorts by ID
