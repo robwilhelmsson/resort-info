@@ -4,6 +4,12 @@ This repository contains the source code for a full-stack application designed t
 
 The app can be found here - [Resort Project](https://resort-info-app.netlify.app/)
 
+Login details for testing - 
+
+email - test@test.com
+
+password - Password
+
 ## Technologies Used
 - Frontend:
   - React
@@ -26,7 +32,7 @@ The Ski Resort Project is a full-stack application that provides users with an e
 ## Features
 
 - Access all the resorts in the world by country, continent or by searching for an individual resort.
-- User Authentication: Users can create an account and sign in to access personalized features.
+- User Authentication: Users can create an account and sign in to access personalized features. Authentication using JWT and checks for password and email validity. 
 - Resort Information: The application provides comprehensive information on ski resorts globally, including details such as location, facilities, terrain, and more.
 - Favorite Resorts: Logged-in users can save their favorite resorts to their account, allowing them to easily access and manage their preferred destinations.
 - Pagination: Due to the large amount of data collected for the resorts, I implemented pagination in the backend controllers to optimize performance and prevent excessive load times.
