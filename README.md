@@ -1,5 +1,10 @@
 # Ski Resort Project
 
+*update* - I have had to remove the database access with fly.io as it was not a free source and could not keep making the payments. Please get in touch if you would like more information from this project but for now, unfortunately the functionality of searching for resorts and getting information has been removed. 
+
+<br>
+<br>
+
 This repository contains the source code for a full-stack application designed to help users find information on ski resorts worldwide. The application is built using Python Flask on the backend and React on the frontend. It allows users to create an account, sign in, and save their favorite resorts to a PostgreSQL database hosted on Fly.io. I decided to create this project because I am a ski coach and found it interesting to gather all the information on ski resorts worldwide.
 
 The app can be found here - [Resort Project](https://resort-info-app.netlify.app/)
