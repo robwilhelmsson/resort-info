@@ -5,7 +5,7 @@
 <br>
 <br>
 
-This repository contains the source code for a full-stack application designed to help users find information on ski resorts worldwide. The application is built using Python Flask on the backend and React on the frontend. It allows users to create an account, sign in, and save their favorite resorts to a PostgreSQL database hosted on Fly.io. I decided to create this project because I am a ski coach and found it interesting to gather all the information on ski resorts worldwide.
+This repository contains the source code for a full-stack application designed to help users find information on ski resorts worldwide. The application is built using Python Flask on the backend and React on the frontend. It allows users to create an account, sign in, and save their favorite resorts to a PostgreSQL database hosted on Fly.io. The resort information is retrived from an API I built, where the GitHub repository can be found [here](https://github.com/robwilhelmsson/ski-resort-api). I decided to create this project because I am a ski coach and found it interesting to gather all the information on ski resorts worldwide.
 
 The app can be found here - [Resort Project](https://resort-info-app.netlify.app/)
 
